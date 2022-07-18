@@ -1,3 +1,4 @@
+import 'package:alcohol_gasoline/blocs/calculation_bloc.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var bloc = CalculationBloc();
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -16,24 +19,26 @@ class _HomePageState extends State<HomePage> {
       ),
       child: ListView(
         children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.all(20),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: CupertinoTextField(
               placeholder: 'Álcool (R\$ por litro)',
               keyboardType: TextInputType.number,
+              controller: bloc.alcoholCtrl,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(20),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: CupertinoTextField(
               placeholder: 'Gasolina (R\$ por litro)',
               keyboardType: TextInputType.number,
+              controller: bloc.gasolineCtrl,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(20),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: Text(
-              'Preencha os dados para calcular!',
+              bloc.message,
               textAlign: TextAlign.center,
             ),
           ),
@@ -41,7 +46,9 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.all(20),
             child: CupertinoButton.filled(
               onPressed: () {
-                setState(() {});
+                setState(() {
+                  bloc.calculate();
+                });
               },
               child: const Text('Calcular'),
             ),
